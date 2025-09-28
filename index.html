@@ -707,18 +707,31 @@
         }
 
         .export-mode .export-table td:nth-child(6) {
-            font-size: 36px !important;
-            font-weight: 900 !important;
-            color: #ef4444 !important;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+            text-align: center !important;
+            padding: 10px !important;
         }
 
         .export-mode .jersey-number-display {
-            display: inline !important;
-            background: none !important;
-            box-shadow: none !important;
+            display: inline-block !important;
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            color: white !important;
+            font-size: 36px !important;
+            font-weight: 900 !important;
+            padding: 8px 16px !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
             width: auto !important;
             height: auto !important;
+            min-width: 60px !important;
+            text-align: center !important;
+        }
+
+        .export-mode .jersey-number-display.goalkeeper {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+        }
+
+        .export-mode .jersey-number-display::before {
+            display: none !important;
         }
 
         .export-mode .export-table tr:nth-child(even) td {
