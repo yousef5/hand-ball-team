@@ -620,6 +620,55 @@
         .export-table tr:nth-child(even) {
             background-color: #f9fafb;
         }
+
+        /* Export mode styles */
+        .export-mode {
+            background-color: #1f2937 !important;
+        }
+
+        .export-mode .export-table {
+            background-color: #1f2937;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .export-mode .export-table th {
+            background: linear-gradient(to right, #4c1d95, #831843) !important;
+            color: white !important;
+            font-size: 18px !important;
+            font-weight: 900 !important;
+            padding: 12px !important;
+            border-color: #6b21a8 !important;
+        }
+
+        .export-mode .export-table td {
+            background-color: #1f2937 !important;
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 16px !important;
+            padding: 10px !important;
+            border-color: #374151 !important;
+        }
+
+        .export-mode .export-table tr:nth-child(even) td {
+            background-color: #111827 !important;
+        }
+
+        .export-mode .export-table .bg-green-100,
+        .export-mode .export-table .bg-blue-100,
+        .export-mode .export-table .bg-yellow-100,
+        .export-mode .export-table .bg-purple-100,
+        .export-mode .export-table .bg-red-100 {
+            background: white !important;
+            color: #1f2937 !important;
+            font-weight: 900 !important;
+        }
+
+        .export-mode .export-table .text-green-600 {
+            color: #10b981 !important;
+            font-weight: 900 !important;
+        }
     </style>
 </head>
 
@@ -1145,16 +1194,31 @@
         function exportTableAsImage() {
             const element = document.getElementById('tableToExport');
 
-            html2canvas(element, {
-                backgroundColor: '#ffffff',
-                scale: 2,
-                logging: false
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `handball-team-table-${new Date().toISOString().split('T')[0]}.png`;
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+            // Add export mode class for dark styling
+            element.classList.add('export-mode');
+
+            // Wait a bit for styles to apply
+            setTimeout(() => {
+                html2canvas(element, {
+                    backgroundColor: '#1f2937',
+                    scale: 3, // Higher scale for better quality
+                    logging: false,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                }).then(canvas => {
+                    // Remove export mode class
+                    element.classList.remove('export-mode');
+
+                    const link = document.createElement('a');
+                    link.download = `handball-team-table-${new Date().toISOString().split('T')[0]}.png`;
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    link.click();
+                }).catch(error => {
+                    // Remove export mode class even if error
+                    element.classList.remove('export-mode');
+                    console.error('Export failed:', error);
+                });
+            }, 100);
         }
 
         // Initialize
