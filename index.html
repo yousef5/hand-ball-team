@@ -456,6 +456,38 @@
             transform: scale(1.02);
         }
 
+        .jersey-number-display {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #dc2626, #7f1d1d);
+            color: white;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jersey-number-display::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        .jersey-number-display.goalkeeper {
+            background: linear-gradient(135deg, #059669, #064e3b);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+        }
+
         .search-input {
             background: white;
             border: 2px solid transparent;
@@ -679,6 +711,14 @@
             font-weight: 900 !important;
             color: #ef4444 !important;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+        }
+
+        .export-mode .jersey-number-display {
+            display: inline !important;
+            background: none !important;
+            box-shadow: none !important;
+            width: auto !important;
+            height: auto !important;
         }
 
         .export-mode .export-table tr:nth-child(even) td {
@@ -1001,7 +1041,7 @@
                         <span class="badge-text" style="display:none;">${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}</span>
                     </td>
                     <td class="px-4 py-2 text-center border-r border-gray-200">
-                        <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-900 text-white rounded-full font-bold text-sm shadow">
+                        <span class="jersey-number-display ${isGoalkeeper ? 'goalkeeper' : ''}">
                             ${player.number}
                         </span>
                         <span class="badge-text" style="display:none;">${player.number}</span>
