@@ -646,6 +646,11 @@
             min-width: auto !important;
         }
 
+        .export-mode .export-table th:nth-child(3) {
+            font-size: 28px !important;
+            color: #fbbf24 !important;
+        }
+
         .export-mode .export-table td {
             background-color: #1f2937 !important;
             color: white !important;
@@ -654,6 +659,14 @@
             padding: 15px 12px !important;
             border-color: #374151 !important;
             white-space: nowrap !important;
+        }
+
+        .export-mode .export-table td:nth-child(3) {
+            font-size: 32px !important;
+            font-weight: 900 !important;
+            color: #fbbf24 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
         }
 
         .export-mode .export-table tr:nth-child(even) td {
@@ -957,7 +970,7 @@
                 row.innerHTML = `
                     <td class="px-3 py-2 text-center font-bold text-gray-500 border-r border-gray-200">${index + 1}</td>
                     <td class="px-4 py-2 text-right font-semibold text-gray-900 border-r border-gray-200">${player.name}</td>
-                    <td class="px-4 py-2 text-center text-gray-600 border-r border-gray-200">${player.username}</td>
+                    <td class="px-4 py-2 text-center text-gray-600 border-r border-gray-200 tshirt-name">${player.username}</td>
                     <td class="px-4 py-2 text-center border-r border-gray-200">
                         <span class="inline-flex px-2 py-1 text-xs font-bold rounded-full ${isGoalkeeper ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
                     }">
