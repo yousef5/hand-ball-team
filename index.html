@@ -762,6 +762,10 @@
             font-weight: 900 !important;
             font-size: 20px !important;
         }
+
+        .export-mode .export-table td:nth-child(6) .badge-text {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -1057,7 +1061,6 @@
                         <span class="jersey-number-display ${isGoalkeeper ? 'goalkeeper' : ''}">
                             ${player.number}
                         </span>
-                        <span class="badge-text" style="display:none;">${player.number}</span>
                     </td>
                     <td class="px-4 py-2 text-center font-bold text-green-600">${player.amount} جنيه</td>
                 `;
