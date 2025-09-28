@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نادي كرة اليد - فريق الأبطال</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #dc2626;
+            --goalkeeper-color: #059669;
+            --accent-color: #fbbf24;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .jersey {
+            width: 130px;
+            height: 150px;
+            position: relative;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .jersey:hover {
+            transform: rotateY(15deg) scale(1.05);
+        }
+
+        .jersey-body {
+            width: 100%;
+            height: 100%;
+            background: var(--secondary-color);
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-image: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+        }
+
+        .jersey-body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 20px;
+            background: inherit;
+            border-radius: 0 0 50% 50%;
+        }
+
+        .jersey-body::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: inherit;
+            filter: brightness(0.8);
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        .jersey-sleeves {
+            position: absolute;
+            top: 10px;
+            width: 140%;
+            height: 40px;
+            left: -20%;
+        }
+
+        .jersey-sleeves::before,
+        .jersey-sleeves::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: inherit;
+            background: var(--secondary-color);
+            filter: brightness(0.9);
+        }
+
+        .jersey-sleeves::before {
+            left: -5px;
+            transform: rotate(-30deg);
+            border-radius: 10px 0 0 10px;
+        }
+
+        .jersey-sleeves::after {
+            right: -5px;
+            transform: rotate(30deg);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .jersey-number {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .jersey-name {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .goalkeeper .jersey-body {
+            background: var(--goalkeeper-color);
+        }
+
+        .goalkeeper .jersey-sleeves::before,
+        .goalkeeper .jersey-sleeves::after {
+            background: var(--goalkeeper-color);
+            filter: brightness(0.9);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        .tab-button {
+            position: relative;
+            padding: 12px 24px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .tab-button.active::before {
+            width: 100%;
+        }
+
+        .tab-button.active {
+            color: var(--accent-color);
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 25px;
+            margin: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-chip.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .player-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .player-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .stats-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .stats-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .animated-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.1;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(-5px, -5px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(5px, -5px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translate(-5px, 5px) rotate(2deg);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .size-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(0) scale(1);
+            }
+
+            50% {
+                transform: translateX(2px) scale(1.05);
+            }
+
+            100% {
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .size-badge::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .size-s {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .size-m {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+
+        .size-l {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .position-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            position: relative;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .position-goalkeeper {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .position-player {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .table-row {
+            transition: all 0.3s;
+        }
+
+        .table-row:hover {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+            transform: scale(1.02);
+        }
+
+        .search-input {
+            background: white;
+            border: 2px solid transparent;
+            background-image: linear-gradient(white, white), linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #ffffff, #f3f4f6);
+            border-radius: 30px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            position: relative;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px 30px 0 0;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        .detail-row:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .modal-jersey {
+            transform: scale(1.2);
+            margin: 20px auto;
+        }
+
+        .table-export-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .table-export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .table-container {
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .export-table th,
+        .export-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+        }
+
+        .export-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="animated-bg"></div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-10 fade-in">
+            <h1 class="text-6xl font-black text-white mb-3 drop-shadow-lg">
+                نادي كرة اليد
+            </h1>
+            <p class="text-2xl text-white/90 font-light">فريق الأبطال 🏆</p>
+        </div>
+
+        <!-- Statistics Dashboard -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 fade-in">
+            <div class="stats-card">
+                <div class="relative z-10">
+                    <div class="text-4xl font-black text-blue-600" id="total-players">18</div>
+                    <div class="text-gray-700 font-semibold mt-2">إجمالي اللاعبين</div>
+                </div>
+            </div>
+            <div class="stats-card">
+                <div class="relative z-10">
+                    <div class="text-4xl font-black text-green-600" id="goalkeepers">2</div>
+                    <div class="text-gray-700 font-semibold mt-2">حراس المرمى</div>
+                </div>
+            </div>
+            <div class="stats-card">
+                <div class="relative z-10">
+                    <div class="text-4xl font-black text-purple-600" id="total-amount">3800</div>
+                    <div class="text-gray-700 font-semibold mt-2">المبلغ الإجمالي</div>
+                </div>
+            </div>
+            <div class="stats-card">
+                <div class="relative z-10">
+                    <div class="text-4xl font-black text-orange-600" id="size-variety">3</div>
+                    <div class="text-gray-700 font-semibold mt-2">أنواع الأحجام</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-2 mb-8 fade-in">
+            <div class="flex flex-wrap justify-center">
+                <button class="tab-button active" data-tab="roster">التشكيلة 👕</button>
+                <button class="tab-button" data-tab="table">الجدول 📊</button>
+                <button class="tab-button" data-tab="stats">الإحصائيات 📈</button>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 fade-in">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">🔍 البحث والتصفية</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <input type="text" id="search-input" placeholder="ابحث بالاسم أو اسم المستخدم..."
+                    class="search-input px-4 py-3 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:outline-none transition-all">
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="font-semibold text-gray-700">المركز:</span>
+                <div class="filter-chip active" data-filter="position" data-value="">الكل</div>
+                <div class="filter-chip" data-filter="position" data-value="حارس">حراس المرمى 🥅</div>
+                <div class="filter-chip" data-filter="position" data-value="لاعب">اللاعبين ⚡</div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 mt-3">
+                <span class="font-semibold text-gray-700">الحجم:</span>
+                <div class="filter-chip active" data-filter="size" data-value="">جميع الأحجام</div>
+                <div class="filter-chip" data-filter="size" data-value="S">صغير (S)</div>
+                <div class="filter-chip" data-filter="size" data-value="M">متوسط (M)</div>
+                <div class="filter-chip" data-filter="size" data-value="L">كبير (L)</div>
+            </div>
+        </div>
+
+        <!-- Content Tabs -->
+        <div id="content-area">
+            <!-- Roster Tab -->
+            <div id="roster-tab" class="tab-content">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6" id="roster-grid">
+                    <!-- Player cards will be populated here -->
+                </div>
+            </div>
+
+            <!-- Table Tab -->
+            <div id="table-tab" class="tab-content hidden">
+                <div class="bg-white rounded-2xl shadow-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">جدول اللاعبين</h3>
+                        <button onclick="exportTableAsImage()" class="table-export-btn">
+                            📸 تصدير كصورة
+                        </button>
+                    </div>
+                    <div class="table-container" id="tableToExport">
+                        <table class="w-full export-table">
+                            <thead class="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                                <tr>
+                                    <th class="px-3 py-3 text-center font-bold border-r border-purple-400">#</th>
+                                    <th class="px-4 py-3 text-right font-bold border-r border-purple-400">الاسم</th>
+                                    <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الاسم علي التيشرت</th>
+                                    <th class="px-4 py-3 text-center font-bold border-r border-purple-400">المركز</th>
+                                    <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الحجم</th>
+                                    <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الرقم</th>
+                                    <th class="px-4 py-3 text-center font-bold">المبلغ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="players-table">
+                                <!-- Table rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Tab -->
+            <div id="stats-tab" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-2xl shadow-xl p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">توزيع الأحجام 📏</h3>
+                        <div id="size-chart" class="space-y-4">
+                            <!-- Size distribution will be populated here -->
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">توزيع المراكز ⚽</h3>
+                        <div id="position-chart" class="space-y-4">
+                            <!-- Position distribution will be populated here -->
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 md:col-span-2">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">أرقام القمصان 🔢</h3>
+                        <div id="number-distribution" class="flex flex-wrap gap-3">
+                            <!-- Number distribution will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Player Details Modal -->
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                        <path
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+                    </svg>
+                </button>
+                <div id="modalJersey">
+                    <!-- Jersey will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-body">
+                <h2 id="modalPlayerName" class="text-2xl font-bold text-center mb-4"></h2>
+                <div id="modalDetails">
+                    <!-- Details will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Player data
+        const playersData = {
+            "players": [
+                { "id": 1, "name": "يوسف محمد", "username": "JOE", "position": "حارس", "size": "M", "number": 15, "amount": 300 },
+                { "id": 2, "name": "محمد هيثم", "username": "M.elbialy", "position": "حارس", "size": "M", "number": 1, "amount": 300 },
+                { "id": 3, "name": "قصي", "username": "Qusay", "position": "لاعب", "size": "S", "number": 91, "amount": 200 },
+                { "id": 4, "name": "يحيى محمد", "username": "YAHIA", "position": "لاعب", "size": "S", "number": 7, "amount": 200 },
+                { "id": 5, "name": "يحيى زكريا", "username": "YAHIA.Z", "position": "لاعب", "size": "S", "number": 5, "amount": 200 },
+                { "id": 6, "name": "أنس", "username": "Elmansy", "position": "لاعب", "size": "S", "number": 33, "amount": 200 },
+                { "id": 7, "name": "يوسف كريم", "username": "YOUSSEF.K", "position": "لاعب", "size": "S", "number": 31, "amount": 200 },
+                { "id": 8, "name": "يزيد محمد", "username": "Yazed Reda", "position": "لاعب", "size": "S", "number": 90, "amount": 200 },
+                { "id": 9, "name": "إدم السعيد", "username": "Dino", "position": "لاعب", "size": "M", "number": 39, "amount": 200 },
+                { "id": 10, "name": "آدم عادل", "username": "ADAM", "position": "لاعب", "size": "M", "number": 3, "amount": 200 },
+                { "id": 11, "name": "عمر أحمد", "username": "Omar Ahmed", "position": "لاعب", "size": "M", "number": 17, "amount": 200 },
+                { "id": 12, "name": "سليم حسام", "username": "Selim", "position": "لاعب", "size": "M", "number": 18, "amount": 200 },
+                { "id": 13, "name": "يوسف أسامة", "username": "Joe Osama", "position": "لاعب", "size": "M", "number": 10, "amount": 200 },
+                { "id": 14, "name": "طارق محمد", "username": "Tarek.M", "position": "لاعب", "size": "M", "number": 8, "amount": 200 },
+                { "id": 15, "name": "ياسين عوض", "username": "YASSIN", "position": "لاعب", "size": "M", "number": 66, "amount": 200 },
+                { "id": 16, "name": "آسر", "username": "ASSER", "position": "لاعب", "size": "M", "number": 11, "amount": 200 },
+                { "id": 17, "name": "أحمد إبراهيم", "username": "Ahmed Ibrahim", "position": "لاعب", "size": "L", "number": 22, "amount": 200 },
+                { "id": 18, "name": "محمد فتحي", "username": "Mohammad.S", "position": "لاعب", "size": "L", "number": 37, "amount": 200 }
+            ]
+        };
+
+        let filteredPlayers = playersData.players;
+        let currentPositionFilter = '';
+        let currentSizeFilter = '';
+
+        // Tab switching
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const tab = this.dataset.tab;
+
+                // Update active button
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Hide all tabs
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show selected tab
+                document.getElementById(`${tab}-tab`).classList.remove('hidden');
+
+                // Render content based on tab
+                if (tab === 'roster') renderRoster(filteredPlayers);
+                if (tab === 'table') renderTable(filteredPlayers);
+                if (tab === 'stats') renderStats();
+            });
+        });
+
+        // Render roster view with jersey cards
+        function renderRoster(players) {
+            const grid = document.getElementById('roster-grid');
+            grid.innerHTML = '';
+
+            players.forEach((player, index) => {
+                const isGoalkeeper = player.position === 'حارس';
+                const card = document.createElement('div');
+                card.className = 'player-card fade-in';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.onclick = () => showPlayerDetails(player);
+
+                card.innerHTML = `
+                    <div class="jersey ${isGoalkeeper ? 'goalkeeper' : ''}">
+                        <div class="jersey-body">
+                            <div class="jersey-sleeves"></div>
+                            <div class="jersey-name">${player.username}</div>
+                            <div class="jersey-number">${player.number}</div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-gray-800 text-lg">${player.name}</h3>
+                        <p class="text-sm text-gray-500 mb-3">${player.username}</p>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-center items-center gap-2">
+                                <span class="text-sm font-semibold text-gray-700">المقاس:</span>
+                                <span class="size-badge size-${player.size.toLowerCase()}">
+                                    ${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}
+                                </span>
+                            </div>
+                            <div class="flex justify-center">
+                                <span class="position-badge ${isGoalkeeper ? 'position-goalkeeper' : 'position-player'}">
+                                    ${isGoalkeeper ? '🥅 حارس مرمى' : '⚡ لاعب'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render table view
+        function renderTable(players) {
+            const tableBody = document.getElementById('players-table');
+            tableBody.innerHTML = '';
+
+            players.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition-colors';
+                const isGoalkeeper = player.position === 'حارس';
+
+                row.innerHTML = `
+                    <td class="px-3 py-2 text-center font-bold text-gray-500 border-r border-gray-200">${index + 1}</td>
+                    <td class="px-4 py-2 text-right font-semibold text-gray-900 border-r border-gray-200">${player.name}</td>
+                    <td class="px-4 py-2 text-center text-gray-600 border-r border-gray-200">${player.username}</td>
+                    <td class="px-4 py-2 text-center border-r border-gray-200">
+                        <span class="inline-flex px-2 py-1 text-xs font-bold rounded-full ${isGoalkeeper ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                    }">
+                            ${player.position}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 text-center border-r border-gray-200">
+                        <span class="inline-flex px-2 py-1 text-xs font-bold rounded ${
+                            player.size === 'S' ? 'bg-yellow-100 text-yellow-800' :
+                            player.size === 'M' ? 'bg-purple-100 text-purple-800' :
+                            'bg-red-100 text-red-800'
+                        }">
+                            ${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 text-center border-r border-gray-200">
+                        <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-900 text-white rounded-full font-bold text-sm shadow">
+                            ${player.number}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 text-center font-bold text-green-600">${player.amount} جنيه</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Render statistics
+        function renderStats() {
+            // Size distribution
+            const sizeChart = document.getElementById('size-chart');
+            const sizes = ['S', 'M', 'L'];
+            const sizeNames = { 'S': 'صغير', 'M': 'متوسط', 'L': 'كبير' };
+
+            sizeChart.innerHTML = '';
+            sizes.forEach(size => {
+                const count = playersData.players.filter(p => p.size === size).length;
+                const percentage = Math.round((count / playersData.players.length) * 100);
+
+                sizeChart.innerHTML += `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="size-badge size-${size.toLowerCase()}">${size}</span>
+                            <span class="font-semibold">${sizeNames[size]}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500"
+                                     style="width: ${percentage}%"></div>
+                            </div>
+                            <span class="font-bold">${count} (${percentage}%)</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Position distribution
+            const positionChart = document.getElementById('position-chart');
+            const goalkeepers = playersData.players.filter(p => p.position === 'حارس').length;
+            const players = playersData.players.length - goalkeepers;
+
+            positionChart.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">🥅</span>
+                        <span class="font-semibold">حراس المرمى</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-32 bg-gray-200 rounded-full h-3">
+                            <div class="bg-green-500 h-3 rounded-full transition-all duration-500"
+                                 style="width: ${(goalkeepers / playersData.players.length) * 100}%"></div>
+                        </div>
+                        <span class="font-bold">${goalkeepers}</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">⚡</span>
+                        <span class="font-semibold">لاعبين</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-32 bg-gray-200 rounded-full h-3">
+                            <div class="bg-blue-500 h-3 rounded-full transition-all duration-500"
+                                 style="width: ${(players / playersData.players.length) * 100}%"></div>
+                        </div>
+                        <span class="font-bold">${players}</span>
+                    </div>
+                </div>
+            `;
+
+            // Number distribution
+            const numberDist = document.getElementById('number-distribution');
+            numberDist.innerHTML = '';
+
+            const sortedPlayers = [...playersData.players].sort((a, b) => a.number - b.number);
+            sortedPlayers.forEach(player => {
+                const isGoalkeeper = player.position === 'حارس';
+                numberDist.innerHTML += `
+                    <div class="relative group">
+                        <div class="w-14 h-14 ${isGoalkeeper ? 'bg-gradient-to-br from-green-500 to-green-700' : 'bg-gradient-to-br from-blue-500 to-blue-700'}
+                                    rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg
+                                    transform transition-all hover:scale-110 cursor-pointer">
+                            ${player.number}
+                        </div>
+                        <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs
+                                    rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                            ${player.name}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+
+        // Filter handling
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+
+                // Update active state
+                document.querySelectorAll(`.filter-chip[data-filter="${filterType}"]`).forEach(c => {
+                    c.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Update filter values
+                if (filterType === 'position') {
+                    currentPositionFilter = filterValue;
+                } else if (filterType === 'size') {
+                    currentSizeFilter = filterValue;
+                }
+
+                // Apply filters
+                filterPlayers();
+            });
+        });
+
+        // Search handling
+        document.getElementById('search-input').addEventListener('input', filterPlayers);
+
+        // Filter function
+        function filterPlayers() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+            filteredPlayers = playersData.players.filter(player => {
+                const matchesSearch = player.name.toLowerCase().includes(searchTerm) ||
+                    player.username.toLowerCase().includes(searchTerm);
+                const matchesPosition = !currentPositionFilter || player.position === currentPositionFilter;
+                const matchesSize = !currentSizeFilter || player.size === currentSizeFilter;
+
+                return matchesSearch && matchesPosition && matchesSize;
+            });
+
+            // Refresh current view
+            const activeTab = document.querySelector('.tab-button.active').dataset.tab;
+            if (activeTab === 'roster') renderRoster(filteredPlayers);
+            if (activeTab === 'table') renderTable(filteredPlayers);
+        }
+
+        // Update statistics
+        function updateStats() {
+            const goalkeepers = playersData.players.filter(p => p.position === 'حارس').length;
+            const totalAmount = playersData.players.reduce((sum, p) => sum + p.amount, 0);
+            const uniqueSizes = [...new Set(playersData.players.map(p => p.size))].length;
+
+            document.getElementById('total-players').textContent = playersData.players.length;
+            document.getElementById('goalkeepers').textContent = goalkeepers;
+            document.getElementById('total-amount').textContent = totalAmount;
+            document.getElementById('size-variety').textContent = uniqueSizes;
+        }
+
+        // Show player details modal
+        function showPlayerDetails(player) {
+            const modal = document.getElementById('playerModal');
+            const isGoalkeeper = player.position === 'حارس';
+
+            // Set jersey
+            document.getElementById('modalJersey').innerHTML = `
+                <div class="modal-jersey jersey ${isGoalkeeper ? 'goalkeeper' : ''}">
+                    <div class="jersey-body">
+                        <div class="jersey-sleeves"></div>
+                        <div class="jersey-name">${player.username}</div>
+                        <div class="jersey-number">${player.number}</div>
+                    </div>
+                </div>
+            `;
+
+            // Set player name
+            document.getElementById('modalPlayerName').textContent = player.name;
+
+            // Set details
+            const sizeText = player.size === 'S' ? 'صغير (S)' : player.size === 'M' ? 'متوسط (M)' : 'كبير (L)';
+            const positionIcon = isGoalkeeper ? '🥅' : '⚡';
+
+            document.getElementById('modalDetails').innerHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">الاسم على التيشرت:</span>
+                    <span class="detail-value">${player.username}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">المركز:</span>
+                    <span class="detail-value">${positionIcon} ${player.position}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">رقم القميص:</span>
+                    <span class="detail-value" style="font-size: 24px; color: ${isGoalkeeper ? '#059669' : '#dc2626'};">${player.number}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">المقاس:</span>
+                    <span class="detail-value">
+                        <span class="size-badge size-${player.size.toLowerCase()}">${sizeText}</span>
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">المبلغ المدفوع:</span>
+                    <span class="detail-value" style="color: #10b981; font-size: 20px;">${player.amount} جنيه</span>
+                </div>
+                <div class="detail-row" style="background: linear-gradient(135deg, ${isGoalkeeper ? '#10b981' : '#3b82f6'}20, ${isGoalkeeper ? '#059669' : '#2563eb'}20);">
+                    <span class="detail-label">حالة التسجيل:</span>
+                    <span class="detail-value" style="color: ${isGoalkeeper ? '#059669' : '#2563eb'};">✅ مكتمل</span>
+                </div>
+            `;
+
+            // Show modal
+            modal.classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('playerModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('playerModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Export table as image
+        function exportTableAsImage() {
+            const element = document.getElementById('tableToExport');
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `handball-team-table-${new Date().toISOString().split('T')[0]}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        // Initialize
+        updateStats();
+        renderRoster(playersData.players);
+    </script>
+</body>
+
+</html>
