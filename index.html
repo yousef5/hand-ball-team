@@ -629,25 +629,26 @@
         .export-mode .export-table {
             background-color: #1f2937;
             color: white;
-            font-weight: 700;
-            font-size: 16px;
+            font-weight: 900;
+            font-size: 24px;
         }
 
         .export-mode .export-table th {
             background: linear-gradient(to right, #4c1d95, #831843) !important;
             color: white !important;
-            font-size: 18px !important;
+            font-size: 28px !important;
             font-weight: 900 !important;
-            padding: 12px !important;
+            padding: 20px 25px !important;
             border-color: #6b21a8 !important;
+            letter-spacing: 1px !important;
         }
 
         .export-mode .export-table td {
             background-color: #1f2937 !important;
             color: white !important;
-            font-weight: 700 !important;
-            font-size: 16px !important;
-            padding: 10px !important;
+            font-weight: 800 !important;
+            font-size: 24px !important;
+            padding: 18px 20px !important;
             border-color: #374151 !important;
         }
 
@@ -660,14 +661,24 @@
         .export-mode .export-table .bg-yellow-100,
         .export-mode .export-table .bg-purple-100,
         .export-mode .export-table .bg-red-100 {
-            background: white !important;
-            color: #1f2937 !important;
-            font-weight: 900 !important;
+            display: none !important;
+        }
+
+        .export-mode .export-table .inline-flex {
+            display: none !important;
         }
 
         .export-mode .export-table .text-green-600 {
             color: #10b981 !important;
             font-weight: 900 !important;
+            font-size: 26px !important;
+        }
+
+        .export-mode .badge-text {
+            display: inline !important;
+            color: white !important;
+            font-weight: 900 !important;
+            font-size: 24px !important;
         }
     </style>
 </head>
@@ -948,6 +959,7 @@
                     }">
                             ${player.position}
                         </span>
+                        <span class="badge-text" style="display:none;">${player.position}</span>
                     </td>
                     <td class="px-4 py-2 text-center border-r border-gray-200">
                         <span class="inline-flex px-2 py-1 text-xs font-bold rounded ${
@@ -957,11 +969,13 @@
                         }">
                             ${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}
                         </span>
+                        <span class="badge-text" style="display:none;">${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}</span>
                     </td>
                     <td class="px-4 py-2 text-center border-r border-gray-200">
                         <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-900 text-white rounded-full font-bold text-sm shadow">
                             ${player.number}
                         </span>
+                        <span class="badge-text" style="display:none;">${player.number}</span>
                     </td>
                     <td class="px-4 py-2 text-center font-bold text-green-600">${player.amount} جنيه</td>
                 `;
