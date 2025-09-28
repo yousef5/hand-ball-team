@@ -4,13 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نادي كرة اليد - فريق الأبطال</title>
+    <title> فريق استاد المنصورة (ب)</title>
+
+    <!-- Prevent Caching for Easy Updates -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/1.png?v=1.0">
+    <link rel="shortcut icon" type="image/png" href="images/1.png?v=1.0">
+    <link rel="apple-touch-icon" href="images/1.png?v=1.0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Auto-reload for development -->
+    <script>
+        // Prevent browser caching
+        if ('caches' in window) {
+            caches.keys().then(function (names) {
+                for (let name of names)
+                    caches.delete(name);
+            });
+        }
+
+        // Force reload if page is loaded from cache
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
     <style>
         * {
             font-family: 'Tajawal', sans-serif;
@@ -148,7 +177,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
             white-space: nowrap;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
         }
 
         .goalkeeper .jersey-body {
@@ -258,42 +286,6 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .stats-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .stats-card::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .stats-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-        }
 
         .animated-bg {
             position: fixed;
@@ -397,6 +389,35 @@
             }
         }
 
+        /* Header specific animations */
+        @keyframes float-logo {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .header-logo {
+            animation: float-logo 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(251, 191, 36, 0.8);
+            }
+        }
+
         .size-s {
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: white;
@@ -486,6 +507,49 @@
         .jersey-number-display.goalkeeper {
             background: linear-gradient(135deg, #059669, #064e3b);
             box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+        }
+
+        /* T-shirt name special design in table */
+        .tshirt-name-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #7c2d12;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
+            transition: all 0.3s;
+        }
+
+        .tshirt-name-badge::before {
+            content: "👕";
+            position: absolute;
+            left: 8px;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        .tshirt-name-badge::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        .tshirt-name-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.6);
         }
 
         .search-input {
@@ -699,11 +763,33 @@
         }
 
         .export-mode .export-table td:nth-child(3) {
-            font-size: 32px !important;
+            padding: 15px 8px !important;
+        }
+
+        .export-mode .tshirt-name-badge {
+            display: inline-flex !important;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+            color: #1f2937 !important;
+            font-size: 28px !important;
             font-weight: 900 !important;
-            color: #fbbf24 !important;
-            text-transform: uppercase !important;
+            padding: 10px 20px !important;
+            border-radius: 20px !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+            min-width: auto !important;
             letter-spacing: 1px !important;
+        }
+
+        .export-mode .tshirt-name-badge::before {
+            content: "👕" !important;
+            position: relative !important;
+            left: 0 !important;
+            margin-right: 8px !important;
+            font-size: 24px !important;
+            opacity: 1 !important;
+        }
+
+        .export-mode .tshirt-name-badge::after {
+            display: none !important;
         }
 
         .export-mode .export-table td:nth-child(6) {
@@ -719,7 +805,7 @@
             font-weight: 900 !important;
             padding: 8px 16px !important;
             border-radius: 10px !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
             width: auto !important;
             height: auto !important;
             min-width: 60px !important;
@@ -773,38 +859,99 @@
     <div class="animated-bg"></div>
 
     <div class="container mx-auto px-4 py-8">
-        <!-- Header -->
-        <div class="text-center mb-10 fade-in">
-            <h1 class="text-6xl font-black text-white mb-3 drop-shadow-lg">
-                نادي كرة اليد
-            </h1>
-            <p class="text-2xl text-white/90 font-light">فريق الأبطال 🏆</p>
-        </div>
+        <!-- Enhanced Header -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl mb-10 fade-in overflow-hidden">
+            <div class="relative bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-purple-600/20 p-8">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10">
+                    <div class="absolute inset-0"
+                        style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px)">
+                    </div>
+                </div>
 
-        <!-- Statistics Dashboard -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 fade-in">
-            <div class="stats-card">
-                <div class="relative z-10">
-                    <div class="text-4xl font-black text-blue-600" id="total-players">18</div>
-                    <div class="text-gray-700 font-semibold mt-2">إجمالي اللاعبين</div>
+                <div class="relative flex flex-col md:flex-row items-center justify-center gap-8">
+                    <!-- Logo/Image Section -->
+                    <div class="relative group">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-opacity scale-110">
+                        </div>
+                        <div class="relative">
+                            <img src="images/1.png?v=1.0" alt="شعار النادي"
+                                class="w-48 h-48 md:w-56 md:h-56 object-contain rounded-full bg-white p-3 shadow-2xl transform transition-all hover:scale-110 hover:rotate-6">
+                            <div
+                                class="absolute -bottom-3 -right-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg">
+                                CHAMPIONS
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Title Section -->
+                    <div class="text-center md:text-right">
+                        <div class="relative inline-block">
+                            <h1 class="text-5xl md:text-7xl font-black text-white mb-2 drop-shadow-2xl relative z-10">
+                                فريق استاد المنصورة (ب)
+                            </h1>
+                            <div
+                                class="absolute -bottom-2 left-0 right-0 h-4 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 blur-xl opacity-50">
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center md:justify-start gap-3 mt-4">
+                            <span
+                                class="bg-white/20 backdrop-blur px-4 py-2 rounded-full text-white font-bold text-lg border border-white/30">
+                                أبطال كرة اليد
+                            </span>
+                            <span
+                                class="bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 rounded-full text-white font-bold text-lg shadow-lg animate-pulse">
+                                🏆 ELITE TEAM
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-center md:justify-start gap-4">
+                            <div class="flex items-center gap-2 text-white/90">
+                                <span class="text-3xl">⚡</span>
+                                <span class="font-semibold">القوة</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-white/90">
+                                <span class="text-3xl">🎯</span>
+                                <span class="font-semibold">الدقة</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-white/90">
+                                <span class="text-3xl">💪</span>
+                                <span class="font-semibold">العزيمة</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animated Wave Bottom -->
+                <div class="absolute bottom-0 left-0 right-0">
+                    <svg class="w-full h-12" viewBox="0 0 1440 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0,48 C480,0 960,0 1440,48 L1440,48 L0,48 Z" fill="rgba(255,255,255,0.1)" />
+                    </svg>
                 </div>
             </div>
-            <div class="stats-card">
-                <div class="relative z-10">
-                    <div class="text-4xl font-black text-green-600" id="goalkeepers">2</div>
-                    <div class="text-gray-700 font-semibold mt-2">حراس المرمى</div>
-                </div>
-            </div>
-            <div class="stats-card">
-                <div class="relative z-10">
-                    <div class="text-4xl font-black text-purple-600" id="total-amount">3800</div>
-                    <div class="text-gray-700 font-semibold mt-2">المبلغ الإجمالي</div>
-                </div>
-            </div>
-            <div class="stats-card">
-                <div class="relative z-10">
-                    <div class="text-4xl font-black text-orange-600" id="size-variety">3</div>
-                    <div class="text-gray-700 font-semibold mt-2">أنواع الأحجام</div>
+
+            <!-- Compact Statistics Dashboard in Header -->
+            <div class="bg-gradient-to-b from-white/10 to-transparent px-6 py-3">
+                <div class="flex justify-center gap-4 md:gap-8">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black text-white" id="total-players">18</span>
+                        <span class="text-white/80 text-sm">لاعب</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/30"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black text-green-400" id="goalkeepers">2</span>
+                        <span class="text-white/80 text-sm">حارس</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/30"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black text-purple-400" id="total-amount">3800</span>
+                        <span class="text-white/80 text-sm">جنيه</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/30"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black text-orange-400" id="size-variety">3</span>
+                        <span class="text-white/80 text-sm">أحجام</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -819,7 +966,7 @@
         </div>
 
         <!-- Filter Section -->
-        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 fade-in">
+        <div id="filter-section" class="bg-white rounded-2xl shadow-xl p-6 mb-8 fade-in">
             <h3 class="text-lg font-bold text-gray-800 mb-4">🔍 البحث والتصفية</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <input type="text" id="search-input" placeholder="ابحث بالاسم أو اسم المستخدم..."
@@ -866,7 +1013,8 @@
                                 <tr>
                                     <th class="px-3 py-3 text-center font-bold border-r border-purple-400">#</th>
                                     <th class="px-4 py-3 text-right font-bold border-r border-purple-400">الاسم</th>
-                                    <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الاسم علي التيشرت</th>
+                                    <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الاسم علي
+                                        التيشرت</th>
                                     <th class="px-4 py-3 text-center font-bold border-r border-purple-400">المركز</th>
                                     <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الحجم</th>
                                     <th class="px-4 py-3 text-center font-bold border-r border-purple-400">الرقم</th>
@@ -898,7 +1046,7 @@
                     </div>
                     <div class="bg-white rounded-2xl shadow-xl p-6 md:col-span-2">
                         <h3 class="text-xl font-bold text-gray-800 mb-6">أرقام القمصان 🔢</h3>
-                        <div id="number-distribution" class="flex flex-wrap gap-3">
+                        <div id="number-distribution" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             <!-- Number distribution will be populated here -->
                         </div>
                     </div>
@@ -947,7 +1095,7 @@
                 { "id": 10, "name": "آدم عادل", "username": "ADAM", "position": "لاعب", "size": "M", "number": 3, "amount": 200 },
                 { "id": 11, "name": "عمر أحمد", "username": "Omar Ahmed", "position": "لاعب", "size": "M", "number": 17, "amount": 200 },
                 { "id": 12, "name": "سليم حسام", "username": "Selim", "position": "لاعب", "size": "M", "number": 18, "amount": 200 },
-                { "id": 13, "name": "يوسف أسامة", "username": "Joe Osama", "position": "لاعب", "size": "M", "number": 10, "amount": 200 },
+                { "id": 13, "name": "يوسف أسامة", "username": "Joe .Osama", "position": "لاعب", "size": "M", "number": 10, "amount": 200 },
                 { "id": 14, "name": "طارق محمد", "username": "Tarek.M", "position": "لاعب", "size": "M", "number": 8, "amount": 200 },
                 { "id": 15, "name": "ياسين عوض", "username": "YASSIN", "position": "لاعب", "size": "M", "number": 66, "amount": 200 },
                 { "id": 16, "name": "آسر", "username": "ASSER", "position": "لاعب", "size": "M", "number": 11, "amount": 200 },
@@ -977,10 +1125,18 @@
                 // Show selected tab
                 document.getElementById(`${tab}-tab`).classList.remove('hidden');
 
+                // Show/hide filter section based on tab
+                const filterSection = document.getElementById('filter-section');
+                if (tab === 'stats') {
+                    filterSection.style.display = 'none';
+                } else {
+                    filterSection.style.display = 'block';
+                }
+
                 // Render content based on tab
                 if (tab === 'roster') renderRoster(filteredPlayers);
                 if (tab === 'table') renderTable(filteredPlayers);
-                if (tab === 'stats') renderStats();
+                if (tab === 'stats') renderStats(); // Always show all players in stats
             });
         });
 
@@ -1039,7 +1195,9 @@
                 row.innerHTML = `
                     <td class="px-3 py-2 text-center font-bold text-gray-500 border-r border-gray-200">${index + 1}</td>
                     <td class="px-4 py-2 text-right font-semibold text-gray-900 border-r border-gray-200">${player.name}</td>
-                    <td class="px-4 py-2 text-center text-gray-600 border-r border-gray-200 tshirt-name">${player.username}</td>
+                    <td class="px-4 py-3 text-center border-r border-gray-200">
+                        <span class="tshirt-name-badge">${player.username}</span>
+                    </td>
                     <td class="px-4 py-2 text-center border-r border-gray-200">
                         <span class="inline-flex px-2 py-1 text-xs font-bold rounded-full ${isGoalkeeper ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
                     }">
@@ -1048,11 +1206,10 @@
                         <span class="badge-text" style="display:none;">${player.position}</span>
                     </td>
                     <td class="px-4 py-2 text-center border-r border-gray-200">
-                        <span class="inline-flex px-2 py-1 text-xs font-bold rounded ${
-                            player.size === 'S' ? 'bg-yellow-100 text-yellow-800' :
-                            player.size === 'M' ? 'bg-purple-100 text-purple-800' :
+                        <span class="inline-flex px-2 py-1 text-xs font-bold rounded ${player.size === 'S' ? 'bg-yellow-100 text-yellow-800' :
+                        player.size === 'M' ? 'bg-purple-100 text-purple-800' :
                             'bg-red-100 text-red-800'
-                        }">
+                    }">
                             ${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}
                         </span>
                         <span class="badge-text" style="display:none;">${player.size === 'S' ? 'صغير' : player.size === 'M' ? 'متوسط' : 'كبير'}</span>
@@ -1139,15 +1296,21 @@
             sortedPlayers.forEach(player => {
                 const isGoalkeeper = player.position === 'حارس';
                 numberDist.innerHTML += `
-                    <div class="relative group">
-                        <div class="w-14 h-14 ${isGoalkeeper ? 'bg-gradient-to-br from-green-500 to-green-700' : 'bg-gradient-to-br from-blue-500 to-blue-700'}
-                                    rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg
-                                    transform transition-all hover:scale-110 cursor-pointer">
+                    <div class="flex items-center gap-3 bg-gradient-to-r ${isGoalkeeper ? 'from-green-50 to-emerald-50' : 'from-blue-50 to-indigo-50'}
+                                p-3 rounded-xl border ${isGoalkeeper ? 'border-green-200' : 'border-blue-200'}
+                                hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
+                        <div class="flex-shrink-0 w-12 h-12 ${isGoalkeeper ? 'bg-gradient-to-br from-green-500 to-green-700' : 'bg-gradient-to-br from-blue-500 to-blue-700'}
+                                    rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
                             ${player.number}
                         </div>
-                        <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs
-                                    rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                            ${player.name}
+                        <div class="flex flex-col">
+                            <span class="font-bold text-gray-800 text-sm">${player.name}</span>
+                            <span class="text-xs text-gray-500">${player.username}</span>
+                        </div>
+                        <div class="ml-auto">
+                            <span class="text-xs px-2 py-1 rounded-full ${isGoalkeeper ? 'bg-green-200 text-green-700' : 'bg-blue-200 text-blue-700'} font-semibold">
+                                ${isGoalkeeper ? 'حارس' : 'لاعب'}
+                            </span>
                         </div>
                     </div>
                 `;
@@ -1199,6 +1362,7 @@
             const activeTab = document.querySelector('.tab-button.active').dataset.tab;
             if (activeTab === 'roster') renderRoster(filteredPlayers);
             if (activeTab === 'table') renderTable(filteredPlayers);
+            // Statistics tab is not affected by filters
         }
 
         // Update statistics
